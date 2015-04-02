@@ -942,13 +942,21 @@ class MavensMateClient(object):
 
     def get_base_url(self):
         pod = self.metadata_server_url.replace("https://", "")
-        pod = pod.split('.salesforce.com')[0]
-        return "https://{0}.salesforce.com/services/data/v{1}".format(pod, util.SFDC_API_VERSION)
+        if 'cloudforce.com' in pod:
+            pod = pod.split('.cloudforce.com')[0]
+            return "https://{0}.cloudforce.com/services/data/v{1}".format(pod, util.SFDC_API_VERSION)
+        else: 
+            pod = pod.split('.salesforce.com')[0]
+            return "https://{0}.salesforce.com/services/data/v{1}".format(pod, util.SFDC_API_VERSION)
 
     def get_tooling_url(self):
         pod = self.metadata_server_url.replace("https://", "")
-        pod = pod.split('.salesforce.com')[0]
-        return "https://{0}.salesforce.com/services/data/v{1}/tooling".format(pod, util.SFDC_API_VERSION)
+        if 'cloudforce.com' in pod:
+            pod = pod.split('.cloudforce.com')[0]
+            return "https://{0}.cloudforce.com/services/data/v{1}/tooling".format(pod, util.SFDC_API_VERSION)
+        else: 
+            pod = pod.split('.salesforce.com')[0]
+            return "https://{0}.salesforce.com/services/data/v{1}/tooling".format(pod, util.SFDC_API_VERSION)
 
     def __is_failed_request(self, r):
         return r.status_code >= 300
